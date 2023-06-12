@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+
+  a {
+    color: #555;
+
+  }
+}
+
+$mainFontColor : #555;
+$mainff: 'Poppins', sans-serif;
+
+@mixin flexBox($j-c : center, $a-i : center) {
+  display: flex;
+  justify-content: $j-c;
+  align-items: $a-i;
+}
