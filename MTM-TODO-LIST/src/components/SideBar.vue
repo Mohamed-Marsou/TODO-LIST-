@@ -3,7 +3,9 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            items: [],
+            items: [
+                { label: "Example List", color: "green", count: 0 },
+            ],
             TaskDetailsCount: [],
             isVisible: false,
         };
@@ -25,13 +27,16 @@ export default {
                 .then(response => {
                     const tagCounts = response.data;
 
-                    // Update the items array with the tag count data
-                    this.items = tagCounts.map(tag => ({
-                        id: tag.id,
-                        label: tag.name,
-                        count: tag.count,
-                        color: tag.color,
-                    }));
+                    if (tagCounts.length > 0) {
+                        this.items = tagCounts.map(tag => ({
+                            id: tag.id,
+                            label: tag.name,
+                            count: tag.count,
+                            color: tag.color,
+                        }));
+                    }
+
+
                 })
                 .catch(error => {
                     console.error('Error fetching tag counts:', error);

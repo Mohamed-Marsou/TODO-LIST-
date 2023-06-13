@@ -111,7 +111,11 @@ export default {
                         {{ errorMessage }}
                     </p>
                 </div>
-
+                <div v-if="tasks.length === 0 ">
+                    <h1 style="padding: 1rem; text-align: center;">
+                        No Tasks Added yet 
+                    </h1>
+                </div>
                 <div v-if="isLoading" class="loading-message">
                     <div class="task lazzyLoading">
                         <div class="mright"></div>
