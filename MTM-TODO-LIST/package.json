@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vue/runtime-dom": "^3.3.4",
+    "axios": "^1.4.0",
     "vue": "^3.2.47"
   },
   "devDependencies": {

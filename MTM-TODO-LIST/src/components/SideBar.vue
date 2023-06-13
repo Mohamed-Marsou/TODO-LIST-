@@ -1,27 +1,57 @@
 <script>
+import axios from 'axios';
 export default {
     data() {
         return {
-            items: [
-                { id: 1, label: 'Work', count: 25 ,color: 'red'},
-                { id: 2, label: 'Personal', count: 5, color: 'silver'},
-                { id: 3, label: 'Diet', count: 211, color: 'purple'},
-            ],
-            isVisible: true
+            items: [],
+            TaskDetailsCount: [],
+            isVisible: false,
         };
     },
     mounted() {
+        // Fetch the tag count data from the API
+        this.fetchTagCounts();
+        this.fetchTaskCounts();
     },
     methods: {
-        handleClick(){
+        handleClick() {
             this.isVisible = !this.isVisible;
+        },
+        handleClick() {
+            this.isVisible = !this.isVisible;
+        },
+        async fetchTagCounts() {
+            axios.get("http://127.0.0.1:8000/api/tag/statistics")
+                .then(response => {
+                    const tagCounts = response.data;
+
+                    // Update the items array with the tag count data
+                    this.items = tagCounts.map(tag => ({
+                        id: tag.id,
+                        label: tag.name,
+                        count: tag.count,
+                        color: tag.color,
+                    }));
+                })
+                .catch(error => {
+                    console.error('Error fetching tag counts:', error);
+                });
+        }, async fetchTaskCounts() {
+            axios.get("http://127.0.0.1:8000/api/task/details")
+                .then(response => {
+                    this.TaskDetailsCount = response.data;
+                    this.fetchTagCounts();
+                })
+                .catch(error => {
+                    console.error('Error fetching tag counts:', error);
+                });
         }
     },
 };
 </script>
 
 <template>
-    <aside  :class="{ hide: isVisible }">
+    <aside :class="{ hide: isVisible }">
         <div class="slot">
             <h2>Menu</h2>
             <form action="#" method="get">
@@ -39,39 +69,42 @@ export default {
             <div class="slot fs">
                 <small>Task</small>
                 <ul>
-                    <li>
+                    <li class="active">
                         <a>
                             <span class="material-symbols-outlined">
                                 double_arrow
                             </span>
                             Upcoming
                         </a>
+                        <p>{{ TaskDetailsCount.total_tasks_count }}</p>
                     </li>
                     <li>
                         <a>
                             <span class="material-symbols-outlined">
                                 today
-                        </span>
-                        Today
-                    </a>
-                </li>
-                <li>
-                    <a>
-                        <span class="material-symbols-outlined">
-                            note
-                        </span>
-                        Sticy Wall
-                    </a>
-                </li>
-            </ul>
-        </div>
+                            </span>
+                            Today
+                        </a>
+                        <p>{{ TaskDetailsCount.tasks_today }}</p>
+                    </li>
+                    <li>
+                        <a>
+                            <span class="material-symbols-outlined">
+                                note
+                            </span>
+                            Sticy Wall
+                        </a>
 
-        <div class="slot fs">
-            <small>List</small>
-            <ul>
-                <li v-for="item in items" :key="item.id">
-                    <a>
-                        <div class="clr" :style="{ backgroundColor: item.color }" ></div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="slot fs">
+                <small>List</small>
+                <ul>
+                    <li v-for="item in items" :key="item.id">
+                        <a>
+                            <div class="clr" :style="{ backgroundColor: item.color }"></div>
                             {{ item.label }}
                         </a>
                         <p>{{ item.count }}</p>
@@ -103,11 +136,12 @@ export default {
 }
 
 aside {
-    width: 20vw;
+    width: 25vw;
     height: 100vh;
     border-right: 1px solid rgba(0, 0, 0, 0.158);
     color: $mainFontColor;
     transition: .5s ease-in-out;
+
     .slot {
         width: 100%;
         min-height: 4rem;
@@ -248,22 +282,36 @@ aside {
 
 
 }
-    // TG Aside 
-    .hide{
-        width: 5vw !important;
-        ul,form,h2,small, .logOut{
-            display: none !important;
-        }
-        #menuBtn{
-            right: 50% !important;
-            transform: translateX(50%);
-            top: 2rem !important;
-            font-size: 2.5rem !important;
-        }
+
+// TG Aside 
+.hide {
+    width: 5vw !important;
+
+    ul,
+    form,
+    h2,
+    small,
+    .logOut {
+        display: none !important;
     }
-    @media screen and (max-width:1200px){
+
+    #menuBtn {
+        right: 50% !important;
+        transform: translateX(50%);
+        top: 2rem !important;
+        font-size: 2.5rem !important;
+    }
+}
+
+@media screen and (max-width:1200px) {
     aside {
         width: 30vw;
     }
+}
+
+.active {
+    background-color: #55555523;
+    padding-left: 0.5rem;
+    font-weight: bold;
 }
 </style>
