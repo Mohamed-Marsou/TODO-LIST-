@@ -50,8 +50,10 @@ export default {
                 .catch(error => {
                     console.error('Error fetching tag counts:', error);
                 });
-        }
-    },
+        },  navigateToAbout() {
+      this.$router.push('/sticky');
+    }
+    },  
 };
 </script>
 
@@ -92,15 +94,6 @@ export default {
                         </a>
                         <p>{{ TaskDetailsCount.tasks_today }}</p>
                     </li>
-                    <li>
-                        <a>
-                            <span class="material-symbols-outlined">
-                                note
-                            </span>
-                            Sticy Wall
-                        </a>
-
-                    </li>
                 </ul>
             </div>
 
@@ -116,15 +109,6 @@ export default {
                     </li>
                 </ul>
             </div>
-        </div>
-
-        <div class="logOut">
-            <span class="material-symbols-outlined">
-                logout
-            </span>
-            <a href="#">
-                Logout
-            </a>
         </div>
     </aside>
 </template>
@@ -275,16 +259,6 @@ aside {
             }
         }
     }
-
-    .logOut {
-        font-family: $mainff;
-        width: 100%;
-        height: 3rem;
-        @include flexBox($j-c: flex-start);
-        gap: 5px;
-        margin: 1.2rem 0 0 1rem;
-    }
-
 
 }
 

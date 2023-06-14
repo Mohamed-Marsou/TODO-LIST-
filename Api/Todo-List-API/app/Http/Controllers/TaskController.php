@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 
@@ -68,5 +69,13 @@ class TaskController extends Controller
         $task->restore();
     
         return response()->json(['message' => 'Task removal undone'], 201);
+    }
+
+    public function todayTasks(): JsonResponse
+    {
+        $today = Carbon::today()->toDateString();
+
+        $todayTasks =Task::whereDate('deadline', $today)->get();
+        return response()->json($todayTasks ,200);
     }
 }

@@ -1,12 +1,13 @@
-<script setup>
+<script setup >
 import Container from './components/Container.vue'
 import SideBar from './components/SideBar.vue'
+
 </script>
 
 <template>
   <div class="_mainContainer">
-    <SideBar />
-    <Container />
+    <SideBar/>
+    <Container/>
   </div>
 </template>
 

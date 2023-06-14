@@ -17,6 +17,7 @@ use App\Http\Controllers\TaskController;
 */
 
 Route::get('/mytasks', [TaskController::class, 'index'])->name('task.index');
+Route::get('/mytasks/today', [TaskController::class, 'todayTasks'])->name('task.todayTasks');
 Route::post('/newtask', [TaskController::class, 'store'])->name('task.store');
 Route::post('/tasks/{id}/delete', [TaskController::class, 'destroy'])->name('task.destroy');
 Route::post('/tasks/{id}/undo', [TaskController::class, 'undoTaskRemoval'])->name('task.undoTaskRemoval');
